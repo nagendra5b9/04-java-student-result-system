@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduMetrics | Student Result Analytics (Collections Framework)</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="portal-wrapper">
+    <header class="portal-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <h1>EduMetrics Academic Portal</h1>
+          <div class="subtitle">Java Collections Framework: ArrayList, HashMap, TreeMap & Stream Aggregators</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="openAddModalBtn">+ Add Student Result</button>
+    </header>
+
+    <!-- Metrics Cards -->
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Enrolled Students</div>
+        <div class="metric-val" id="totalStudents">0</div>
+        <div class="metric-note">Dynamic ArrayList Size</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Batch Average Score</div>
+        <div class="metric-val highlight" id="avgPercentage">0.0%</div>
+        <div class="metric-note">Calculated via DoubleStream</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Pass Rate</div>
+        <div class="metric-val" id="passRate">0%</div>
+        <div class="metric-note">Predicate Filtered Count</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Top Honor Performer</div>
+        <div class="metric-val" id="topStudentName" style="font-size: 1.15rem; margin-top: 4px;">--</div>
+        <div class="metric-note">Comparable.compareTo Max</div>
+      </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="table-card">
+      <div class="table-toolbar">
+        <div class="search-input-wrapper">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="filterInput" placeholder="Filter by student name or dept...">
+        </div>
+        <div class="sort-controls">
+          <label>Sort By:</label>
+          <select id="sortSelect">
+            <option value="rank">Rank / Score (High to Low)</option>
+            <option value="name">Student Name (A - Z)</option>
+            <option value="gpa">GPA (High to Low)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Student ID</th>
+              <th>Full Name</th>
+              <th>Department</th>
+              <th>Total Marks</th>
+              <th>Percentage</th>
+              <th>GPA</th>
+              <th>Grade</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay hidden" id="detailModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalStudentName">Student Score Breakdown</h3>
+        <button class="close-btn" id="closeDetailBtn">&times;</button>
+      </div>
+      <div class="student-meta-summary" id="modalMetaSummary"></div>
+      <div class="subject-bars-container" id="subjectBars"></div>
+    </div>
+  </div>
+
+  <!-- Add Student Modal -->
+  <div class="modal-overlay hidden" id="addModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Enroll New Student Result</h3>
+        <button class="close-btn" id="closeAddBtn">&times;</button>
+      </div>
+      <form id="addStudentForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student ID</label>
+            <input type="text" id="newId" placeholder="STU-106" required>
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="newName" placeholder="Alex Morgan" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" id="newDept" placeholder="Computer Science" required>
+        </div>
+        <div class="scores-form-grid">
+          <div class="form-group">
+            <label>Math (0-100)</label>
+            <input type="number" id="scoreMath" min="0" max="100" value="85" required>
+          </div>
+          <div class="form-group">
+            <label>Algorithms (0-100)</label>
+            <input type="number" id="scoreAlgo" min="0" max="100" value="90" required>
+          </div>
+          <div class="form-group">
+            <label>Databases (0-100)</label>
+            <input type="number" id="scoreDb" min="0" max="100" value="88" required>
+          </div>
+          <div class="form-group">
+            <label>Systems (0-100)</label>
+            <input type="number" id="scoreSys" min="0" max="100" value="82" required>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancelAddBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save to System</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
